@@ -60,40 +60,44 @@ exact_solutions_df = pd.DataFrame(exact_solutions, index=x_points, columns=speci
 approx_solutions = approx_solutions.round(2)
 exact_solutions_df = exact_solutions_df.round(2)
 
-# Create an image output of a table for the approximate solutions
+# Transpose the approximate solutions table
+approx_solutions_transposed = approx_solutions.T
+
+# Create an image output of the transposed table for approximate solutions
 fig, ax = plt.subplots(figsize=(10, 6))
 ax.axis('tight')
 ax.axis('off')
 
-table_data = approx_solutions
-col_labels = [f"t = {col}" for col in table_data.columns]
-row_labels = [f"x = {row:.1f}" for row in table_data.index]
+col_labels = [f"x = {col:.1f}" for col in approx_solutions_transposed.columns]
+row_labels = [f"t = {row}" for row in approx_solutions_transposed.index]
 
-table = ax.table(cellText=table_data.values, colLabels=col_labels, rowLabels=row_labels, loc='center', cellLoc='center')
-table.auto_set_font_size(False)
-table.set_fontsize(10)
-table.auto_set_column_width(col=list(range(len(table_data.columns))))
+transposed_table = ax.table(cellText=approx_solutions_transposed.values, colLabels=col_labels, rowLabels=row_labels, loc='center', cellLoc='center')
+transposed_table.auto_set_font_size(False)
+transposed_table.set_fontsize(10)
+transposed_table.auto_set_column_width(col=list(range(len(approx_solutions_transposed.columns))))
 
 plt.title("Approximate Solutions at Discrete Points")
-plt.savefig("approximate_solutions_table.png")
+plt.savefig("transposed_approximate_solutions_table.png")
 plt.close()
 
-# Create an image output of a table for the exact solutions
+# Transpose the exact solutions table
+exact_solutions_transposed = exact_solutions_df.T
+
+# Create an image output of the transposed table for exact solutions
 fig, ax = plt.subplots(figsize=(10, 6))
 ax.axis('tight')
 ax.axis('off')
 
-table_data_exact = exact_solutions_df
-col_labels = [f"t = {col}" for col in table_data_exact.columns]
-row_labels = [f"x = {row:.1f}" for row in table_data_exact.index]
+col_labels = [f"x = {col:.1f}" for col in exact_solutions_transposed.columns]
+row_labels = [f"t = {row}" for row in exact_solutions_transposed.index]
 
-table = ax.table(cellText=table_data_exact.values, colLabels=col_labels, rowLabels=row_labels, loc='center', cellLoc='center')
-table.auto_set_font_size(False)
-table.set_fontsize(10)
-table.auto_set_column_width(col=list(range(len(table_data_exact.columns))))
+transposed_table_exact = ax.table(cellText=exact_solutions_transposed.values, colLabels=col_labels, rowLabels=row_labels, loc='center', cellLoc='center')
+transposed_table_exact.auto_set_font_size(False)
+transposed_table_exact.set_fontsize(10)
+transposed_table_exact.auto_set_column_width(col=list(range(len(exact_solutions_transposed.columns))))
 
 plt.title("Exact Solutions at Discrete Points")
-plt.savefig("exact_solutions_table.png")
+plt.savefig("transposed_exact_solutions_table.png")
 plt.close()
 
 # Plot the approximate solution against the exact solution for t = 0.6
