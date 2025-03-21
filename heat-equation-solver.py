@@ -40,7 +40,7 @@ approx_solutions = pd.DataFrame(u_specified, index=x_points, columns=specified_t
 # Define the analytical solution for the heat equation
 def analytical_solution(x, t, L, c_squared):
     solution = np.zeros_like(x)
-    for m in range(1, 5000):  # Use the first 5000 terms of the series
+    for m in range(1, 10000):  # Use the first 10000 terms of the series
         term = ((-1) ** (m + 1)) * (200 / (m * np.pi)) * np.sin(m * np.pi * x / L) * np.exp(-c_squared * (m * np.pi / L)**2 * t)
         solution += term
     return solution
