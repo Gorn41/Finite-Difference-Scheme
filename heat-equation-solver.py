@@ -18,12 +18,12 @@ specified_time_points = [0, 0.2, 0.4, 0.6, 0.8, 1.0]  # Specified time points
 # Initialize the temperature array
 u = np.zeros((len(x_points), len(time_points)))
 
-# Initial condition: u(x, 0) = 100x
-u[:, 0] = 100 * x_points
-
 # Boundary conditions: u(0, t) = u(L, t) = 0
 u[0, :] = 0
 u[-1, :] = 0
+
+# Initial condition: u(x, 0) = 100x
+u[:, 0] = 100 * x_points
 
 # Finite difference scheme
 for j in range(1, len(time_points)):
@@ -40,7 +40,7 @@ approx_solutions = pd.DataFrame(u_specified, index=x_points, columns=specified_t
 # Define the analytical solution for the heat equation
 def analytical_solution(x, t, L, c_squared):
     solution = np.zeros_like(x)
-    for m in range(1, 100):  # Use the first 100 terms of the series
+    for m in range(1, 5000):  # Use the first 5000 terms of the series
         term = ((-1) ** (m + 1)) * (200 / (m * np.pi)) * np.sin(m * np.pi * x / L) * np.exp(-c_squared * (m * np.pi / L)**2 * t)
         solution += term
     return solution
@@ -49,6 +49,9 @@ def analytical_solution(x, t, L, c_squared):
 exact_solutions = np.zeros_like(u_specified)
 for j, t in enumerate(specified_time_points):
     exact_solutions[:, j] = analytical_solution(x_points, t, L, c_squared)
+
+# Initial condition: u(x, 0) = 100x
+exact_solutions[:, 0] = 100 * x_points
 
 # Store the exact solutions in a DataFrame
 exact_solutions_df = pd.DataFrame(exact_solutions, index=x_points, columns=specified_time_points)
@@ -106,10 +109,10 @@ exact_values_fine = analytical_solution(x_fine, 0.6, L, c_squared)
 
 # Plot
 plt.figure(figsize=(10, 6))
-plt.plot(x_fine, exact_values_fine, label="Exact Solution (Smooth Curve)", color="blue")
-plt.plot(x_values, approx_values, label="Approximate Solution (Discrete Points)", color="red", marker="o", linestyle="-")
+plt.plot(x_fine, exact_values_fine, label="Exact Solution", color="blue")
+plt.plot(x_values, approx_values, label="Approximate Solutions", color="red", marker="o", linestyle="-")
 
-plt.title("Approximate vs Exact Solution at t = 0.6")
+plt.title("Approximate vs Exact Solutions at t = 0.6")
 plt.xlabel("Position x")
 plt.ylabel("Temperature u(x, t)")
 plt.legend()
